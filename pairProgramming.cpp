@@ -4,10 +4,15 @@
 using std::string;
 
 int add(const string &addable){
-
+    if(addable.size()==0){
+        return 0;
+    }
+    return 1;
 }
 
 TEST_CASE( "add null str [add]" ) {
     REQUIRE( add("") == 0 );
+    REQUIRE( add("1") == 1);
+    REQUIRE( add("1,2") == 3);
 
 }
