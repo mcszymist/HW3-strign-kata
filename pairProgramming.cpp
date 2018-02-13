@@ -4,8 +4,14 @@
 using std::string;
 
 int add(const string &addable){
+    string firstNum;
     if(addable.size()==0){
         return 0;
+    }
+    for(auto i : addable){
+        string hold;
+
+
     }
     return 1;
 }
@@ -13,6 +19,7 @@ int add(const string &addable){
 TEST_CASE( "add null str [add]" ) {
     REQUIRE( add("") == 0 );
     REQUIRE( add("1") == 1);
+    REQUIRE( add("2") == 2);
     REQUIRE( add("1,2") == 3);
 
 }
