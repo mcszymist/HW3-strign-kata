@@ -5,16 +5,24 @@ using std::string;
 using std::stringstream;
 #include <vector>
 using std::vector;
-
+#include <iostream>
+using std::cout;
+const string removeNonNums(const string &curroptString){
+    string curroption = curroptString;
+    for(int i = 0;i<curroption.size();i++){
+        if(!(curroption[i] > '0' && curroption[i] < '9')){
+            curroption[i] = ' ';
+        }
+    }
+    return curroption;
+}
 int add(const string &addable){
-    stringstream ss(addable);
+    stringstream ss;
+    ss.str(removeNonNums(addable));
+    cout << ss.str();
     vector<int> addableNums{};
     int storage = 0;
-    if(addable.size()==0){
-        return 0;
-    }
-    while(!ss.eof()){
-        ss >> storage;
+    while(ss >> storage){
         addableNums.push_back(storage);
     }
     storage = 0;
@@ -33,4 +41,7 @@ TEST_CASE( "add single num str [single]" ) {
 }
 TEST_CASE( "add double num str [double]" ) {
     REQUIRE( add("1,2") == 3);
+}
+TEST_CASE( "add triple num str [triple]" ) {
+    REQUIRE( add("1,2,3") == 6);
 }
