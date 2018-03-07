@@ -8,6 +8,7 @@ using std::to_string;
 using std::vector;
 #include <iostream>
 using std::cout;
+
 const string removeNonNums(const string &curroptString){
     string curroption = curroptString;
     for(int i = 0;i<curroption.size();i++){
@@ -19,10 +20,8 @@ const string removeNonNums(const string &curroptString){
 }
 
 int add(const string &addable){
-    stringstream ss;
-    ss.str(removeNonNums(addable));
-    vector<int> addableNums{};
-    vector<int> negativeNums{};
+    stringstream ss(removeNonNums(addable));
+    vector<int> addableNums{},negativeNums{};
     int storage = 0;
     while(ss >> storage){
         addableNums.push_back(storage);
