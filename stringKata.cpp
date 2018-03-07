@@ -3,6 +3,7 @@
 #include <string>
 using std::string;
 using std::stringstream;
+using std::to_string;
 #include <vector>
 using std::vector;
 #include <iostream>
@@ -10,7 +11,7 @@ using std::cout;
 const string removeNonNums(const string &curroptString){
     string curroption = curroptString;
     for(int i = 0;i<curroption.size();i++){
-        if(!(curroption[i] >= '0' && curroption[i] <= '9')){
+        if(!(curroption[i] >= '0' && curroption[i] <= '9' || curroption[i]=='-')){
             curroption[i] = ' ';
         }
     }
@@ -20,15 +21,26 @@ const string removeNonNums(const string &curroptString){
 int add(const string &addable){
     stringstream ss;
     ss.str(removeNonNums(addable));
-    cout << ss.str();
     vector<int> addableNums{};
+    vector<int> negativeNums{};
     int storage = 0;
     while(ss >> storage){
         addableNums.push_back(storage);
     }
     storage = 0;
     for(auto nums : addableNums){
+        if(nums < 0){
+            negativeNums.push_back(nums);
+        }
         storage += nums;
+    }
+    if(negativeNums.size()!=0){
+        string errorCode("negatives not allowed: ");
+        for(auto nums : negativeNums){
+            errorCode += to_string(nums) + ",";
+        }
+        errorCode.pop_back();
+        throw(errorCode);
     }
     return storage;
 }
@@ -49,8 +61,14 @@ TEST_CASE( "add triple num str [triple]" ) {
 TEST_CASE( "add mass num str [massLength]" ) {
 
     REQUIRE( add("1,1,1,1,1,1,1,1,1,1") == 10);
-    REQUIRE( add("3456788")==3456788);
 }
 TEST_CASE( "add different chars num str [delimiters]" ) {
     REQUIRE( add("1\n2,3")==6);
+}
+TEST_CASE ( "negative numbers not allowed [negative]"){
+    REQUIRE_THROWS_WITH( add("1,2,3,-4"), "negatives not allowed: -4" );
+}
+TEST_CASE( "numbers over 1000 not supported [notSupported]"){
+    REQUIRE( add("1,2000,3")== 4);
+
 }
