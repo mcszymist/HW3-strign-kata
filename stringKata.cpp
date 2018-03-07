@@ -18,6 +18,14 @@ const string removeNonNums(const string &curroptString){
     }
     return curroption;
 }
+void negativeNumbersFoundThrow(const vector<int> &negativeNums){
+    string errorCode("negatives not allowed: ");
+        for(auto nums : negativeNums){
+            errorCode += to_string(nums) + ",";
+        }
+        errorCode.pop_back();
+        throw(errorCode);
+};
 
 int add(const string &addable){
     stringstream ss(removeNonNums(addable));
@@ -33,14 +41,8 @@ int add(const string &addable){
         }
         storage += nums;
     }
-    if(negativeNums.size()!=0){
-        string errorCode("negatives not allowed: ");
-        for(auto nums : negativeNums){
-            errorCode += to_string(nums) + ",";
-        }
-        errorCode.pop_back();
-        throw(errorCode);
-    }
+    if(negativeNums.size()!=0)
+        negativeNumbersFoundThrow(negativeNums);
     return storage;
 }
 
