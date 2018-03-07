@@ -10,12 +10,13 @@ using std::cout;
 const string removeNonNums(const string &curroptString){
     string curroption = curroptString;
     for(int i = 0;i<curroption.size();i++){
-        if(!(curroption[i] > '0' && curroption[i] < '9')){
+        if(!(curroption[i] >= '0' && curroption[i] <= '9')){
             curroption[i] = ' ';
         }
     }
     return curroption;
 }
+
 int add(const string &addable){
     stringstream ss;
     ss.str(removeNonNums(addable));
@@ -44,4 +45,12 @@ TEST_CASE( "add double num str [double]" ) {
 }
 TEST_CASE( "add triple num str [triple]" ) {
     REQUIRE( add("1,2,3") == 6);
+}
+TEST_CASE( "add mass num str [massLength]" ) {
+
+    REQUIRE( add("1,1,1,1,1,1,1,1,1,1") == 10);
+    REQUIRE( add("3456788")==3456788);
+}
+TEST_CASE( "add different chars num str [delimiters]" ) {
+    REQUIRE( add("1\n2,3")==6);
 }
